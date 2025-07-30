@@ -1,20 +1,16 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const resolvers = require('./resolvers')
+const typeDefs = require('./schema')
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const express = require('express')
+const { ApolloServer } = require('apollo-server-express')
 
-var app = express();
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
-module.exports = app;
+async function startServer() {
+  const app = express()
+  const server = new ApolloServer({ typeDefs, resolvers })
+  await server.start()
+  server.applyMiddleware({ app })
+  app.listen(4000, () =>
+    console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+  )
+}
+startServer()

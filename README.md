@@ -1,5 +1,15 @@
 # CRUD with GraphQL
 
+
+## Getting Started
+
+```sh
+node app.js
+
+# Checkout the following URL in browser:
+http://localhost:4000/graphql
+```
+
 ## CREATE
 
 ```graphql
